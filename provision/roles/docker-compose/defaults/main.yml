@@ -1,0 +1,4 @@
+---
+# Default variables for docker_compose role
+
+docker_compose_version: "v2.24.6"

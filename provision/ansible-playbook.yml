@@ -1,0 +1,9 @@
+---
+- name: Install Docker and Docker Compose
+  hosts: all
+  become: yes
+  gather_facts: no
+  roles:
+    - docker
+    - docker-compose
+    - deploy
