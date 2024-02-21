@@ -1,7 +1,6 @@
 ---
-- name: Install Docker and Docker Compose
-  hosts: all
-  become: yes
+- hosts: frontend
+  become: true
   gather_facts: no
   roles:
     - docker

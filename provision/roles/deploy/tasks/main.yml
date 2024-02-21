@@ -1,12 +1,12 @@
 ---
 - name: Copy docker-compose.yml to the server
   copy:
-    src: "{{ playbook_dir }}/deploy/files/docker-compose.yml"
-    dest: "/path/on/server/docker-compose.yml"
+    src: "docker-compose.yml"
+    dest: "/home/ubuntu/docker-compose.yml"
 
 - name: Start containers using docker-compose
   command: docker-compose up -d
   args:
-    chdir: "/path/on/server/"
-  become: yes
-  become_user: your_docker_user
+    chdir: "/home/ubuntu/"
+  become: true
+  become_user: ubuntu

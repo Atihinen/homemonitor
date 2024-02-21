@@ -1,28 +1,16 @@
 ---
-- name: Install Docker Compose on Ubuntu 22.04 (Jammy)
-  become: yes
+
+- name: Download Docker Compose binary
+  become: true
   become_user: root
-  tasks:
-    - name: Download Docker Compose binary
-      get_url:
-        url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64"
-        dest: /usr/local/bin/docker-compose
-        mode: 'a+x'
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64"
+    dest: /usr/local/bin/docker-compose
+    mode: 'a+x'
 
-    - name: Install Python pip
-      apt:
-        name: python3-pip
-        state: present
-
-    - name: Install Docker Compose dependencies
-      pip:
-        name: docker-compose
-
-    - name: Check Docker Compose version
-      command: docker-compose --version
-      register: compose_version_output
-      ignore_errors: yes
-
-    - name: Print Docker Compose version
-      debug:
-        var: compose_version_output.stdout
+- name: Check Docker Compose version
+  become: true
+  become_user: root
+  command: docker-compose --version
+  register: compose_version_output
+  ignore_errors: true
