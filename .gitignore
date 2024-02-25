@@ -20,6 +20,17 @@
 # Go workspace file
 go.work
 
+pkg
 
 # Ansible
 provision/inventory.yml
+
+#python
+*.pyc
+
+#robot
+*.html
+*.xml
+
+#vagrant
+.vagrant

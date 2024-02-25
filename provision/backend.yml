@@ -1,0 +1,8 @@
+---
+- hosts: backend
+  become: true
+  gather_facts: no
+  roles:
+    - docker
+    - docker-compose
+    - deploy-backend

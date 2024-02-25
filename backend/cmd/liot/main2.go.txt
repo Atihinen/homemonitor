@@ -1,0 +1,30 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type Data struct {
+	ID      int                    `json:"id"`
+	Sensors map[string]interface{} `json:"sensors"`
+}
+
+func main() {
+	// Your JSON data
+	jsonData := []byte(`{"id": 3, "sensors": {"humidity": 47, "temperature": 19}}`)
+
+	// Unmarshal JSON data into a Data struct
+	var data Data
+	err := json.Unmarshal(jsonData, &data)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Access the unmarshaled data
+	fmt.Println("ID:", data.ID)
+	for sensor, value := range data.Sensors {
+		fmt.Printf("%s: %v\n", sensor, value)
+	}
+}
