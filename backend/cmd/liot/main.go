@@ -15,7 +15,11 @@ import (
 
 func main() {
 	// Connect to NATS server
-	nc, err := nats.Connect(nats.DefaultURL)
+	natsAddress := os.Getenv("NATS_ADDRESS")
+	if natsAddress == "" {
+		log.Fatalf("Error: NATS_ADDRESS environment variable is not defined")
+	}
+	nc, err := nats.Connect(natsAddress)
 	if err != nil {
 		log.Fatalf("Error connecting to NATS: %v", err)
 	}
