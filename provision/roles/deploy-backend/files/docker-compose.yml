@@ -6,3 +6,14 @@ services:
     ports:
       - "4222:4222"  # NATS client port
       - "8222:8222"  # HTTP monitoring port
+    restart: always
+  liot:
+    image: groupd9/liot:latest
+    environment:
+      NATS_ADDRESS: nats://nats:4222
+      INFLUXDB_ADDRESS: ${INFLUXDB_ADDRESS}
+      INFLUXDB_PORT: ${INFLUXDB_PORT}
+      INFLUXDB_USERNAME: ${INFLUXDB_USERNAME}
+      INFLUXDB_PASSWORD: ${INFLUXDB_PASSWORD}
+    restart: always
+

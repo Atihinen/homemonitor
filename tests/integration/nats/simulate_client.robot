@@ -1,10 +1,10 @@
 *** Settings ***
-Library    NatsLibrary
-Library    InfluxDBLibrary
+Library    NatsLibrary    ${NATS_ADDR}    ${NATS_PORT}
+Library    InfluxDBLibrary    ${INFLUXDB_ADDR}    ${INFLUXDB_PORT}
 Library    Collections
 
 *** Variables ***
-${PAYLOAD}=    {"id": 3, "sensors": {"humidity": 47, "temperature": 19}}
+${PAYLOAD}=    {"id": 3, "sensors": {"humidity": 58, "temperature": 20}}
 
 *** Test Cases ***
 
@@ -21,8 +21,8 @@ Send Sensor Payload
 
 *** Keywords ***
 Setup Influxdb Connection
-    Set Credentials    %{INFLUXDB_USERNAME}    %{INFLUXDB_PASSWORD}
-    Use Database    %{INFLUXDB_DATABASE}
+    Set Credentials    ${INFLUXDB_USERNAME}    ${INFLUXDB_PASSWORD}
+    Use Database    ${INFLUXDB_DATABASE}
 
 Read Sensor Value
     [Arguments]    ${query_result}    ${sensor}

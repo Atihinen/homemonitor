@@ -21,6 +21,7 @@
 go.work
 
 pkg
+bin
 
 # Ansible
 provision/inventory.yml
@@ -31,6 +32,6 @@ provision/inventory.yml
 #robot
 *.html
 *.xml
-
+tests/config/prod.args
 #vagrant
 .vagrant

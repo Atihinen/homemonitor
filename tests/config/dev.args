@@ -1,0 +1,8 @@
+-A tests/config/base.args
+-v NATS_ADDR:localhost
+-v NATS_PORT:4222
+-v INFLUXDB_USERNAME:test
+-v INFLUXDB_PASSWORD:influx
+-v INFLUXDB_DATABASE:sensors
+-v INFLUXDB_ADDR:localhost
+-v INFLUXDB_PORT:8086
