@@ -35,3 +35,10 @@ provision/inventory.yml
 tests/config/prod.args
 #vagrant
 .vagrant
+
+#arduino
+*.hex
+secrets.h
+
+#general
+.DS_Store

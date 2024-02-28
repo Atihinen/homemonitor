@@ -15,5 +15,7 @@ services:
       INFLUXDB_PORT: ${INFLUXDB_PORT}
       INFLUXDB_USERNAME: ${INFLUXDB_USERNAME}
       INFLUXDB_PASSWORD: ${INFLUXDB_PASSWORD}
+      INFLUXDB_DATABASE: ${INFLUXDB_DATABASE}
     restart: always
-
+    depends_on:
+      - nats
