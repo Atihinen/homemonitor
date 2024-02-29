@@ -5,12 +5,13 @@ import (
 	"backend/internal/types"
 	"encoding/json"
 	"fmt"
-	"github.com/nats-io/nats.go"
 	"log"
 	"os"
 	"os/signal"
 	"strconv"
 	"syscall"
+
+	"github.com/nats-io/nats.go"
 )
 
 func main() {
@@ -28,20 +29,11 @@ func main() {
 	// Subscribe to "sensors" topic
 	_, err = nc.Subscribe("sensors", func(msg *nats.Msg) {
 		log.Printf("Received message: %s", msg.Data)
-		unescapedJSON, err := strconv.Unquote(string(msg.Data))
-		log.Printf("Unescaped json: %s", unescapedJSON)
-		if err != nil {
-			fmt.Println("Error unescaping JSON:", err)
-			return
-		}
 		var sensorData types.SensorData
-		// Unmarshal the unescaped JSON into sensorData
-		err = json.Unmarshal([]byte(unescapedJSON), &sensorData)
-		if err != nil {
-			log.Printf("Error decoding JSON: %v", err)
+		if err := extractAndParseJSON(msg.Data, &sensorData); err != nil {
+			log.Printf("Error extracting and parsing JSON: %v", err)
 			return
 		}
-
 		// Process the received sensor data
 		// Print all sensor values
 		log.Printf("Received sensor data: ID=%d, Sensors:", sensorData.ID)
@@ -63,4 +55,28 @@ func main() {
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	<-sigChan
 	log.Println("Shutting down...")
+}
+
+func extractAndParseJSON(data []byte, sensorData *types.SensorData) error {
+	var unescapedJSON string
+
+	// Check if the JSON is escaped or not
+	if len(data) >= 2 && data[0] == '"' && data[len(data)-1] == '"' {
+		// If the JSON is escaped, unquote it
+		unescaped, err := strconv.Unquote(string(data))
+		if err != nil {
+			return fmt.Errorf("error unescaping JSON: %v", err)
+		}
+		unescapedJSON = unescaped
+	} else {
+		// If the JSON is not escaped, use it directly
+		unescapedJSON = string(data)
+	}
+
+	// Unmarshal the unescaped JSON into sensorData
+	if err := json.Unmarshal([]byte(unescapedJSON), sensorData); err != nil {
+		return fmt.Errorf("error decoding JSON: %v", err)
+	}
+
+	return nil
 }

@@ -1,5 +1,6 @@
 import json
 from pynats import NATSClient
+from robot.api import logger
 
 class NatsLibrary():
     def __init__(self, addr="localhost", port=4222):
@@ -9,6 +10,8 @@ class NatsLibrary():
         self.subject = subject
 
     def publish_message(self, payload, subject=None):
+        logger.info(payload)
+        payload = json.loads(payload)
         if subject is not None:
             self.subject = subject
         with NATSClient(url=self._nats_addr) as nc:
